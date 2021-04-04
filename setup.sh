@@ -1,6 +1,7 @@
 #!/bin/env bash
 
 # read .env file
+# TODO: change the path
 export $(grep -v '^#' $HOME/dev/config/docker-kalilinux/.env | xargs)
 
 docker build . -t $IMAGE_NAME
