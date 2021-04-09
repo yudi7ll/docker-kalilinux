@@ -16,21 +16,18 @@ function boot() {
 		--privileged \
 		--net host \
 		--name $CONTAINER_NAME \
-		--gpus all \
 		--security-opt label=type:container_runtime_t \
 		-e DISPLAY=unix$DISPLAY \
-		-e PULSE_SERVER=unix:/run/user/1000/pulse/native \
 		-e QT_QPA_PLATFORMTHEME=qt5ct \
-		-e _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dsun.java2d.opengl=true' \
+		-e _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true' \
 		-e XDG_RUNTIME_DIR=/run/user/1000 \
 		-e GTK_USER_PORTAL=1 \
 		-e JAVA_HOME=/usr/lib/jvm/default \
-		-u 1000 \
-		-v /etc/hosts:/etc/hosts \
+		-u $USER \
 		-v /hdd:/hdd \
+		-v /etc/hosts:/etc/hosts \
 		-v /tmp/:/tmp/ \
 		-v /run/user/1000:/run/user/1000 \
-		-v $HOME/.gnupg:$HOME/.gnupg:ro \
 		-v $HOME/.Xauthority:$HOME/.Xauthority \
 		$IMAGE_NAME
 
@@ -39,7 +36,9 @@ function boot() {
 	echo 'Copying fonts configuration'
 	docker cp /etc/fonts $CONTAINER_NAME:/etc/fonts
 	echo 'Copying themes'
-	docker cp /usr/share/themes $CONTAINER_NAME:/usr/share/themes
+	docker cp /usr/share/themes/Arc-Darkest $CONTAINER_NAME:/usr/share/themes/
+	echo 'Copying icons'
+	docker cp /usr/share/icons $CONTAINER_NAME:/usr/share/icons
 	echo 'Copying xfce4 configuration'
 	docker cp $HOME/.config/xfce4 $CONTAINER_NAME:$HOME/.config/xfce4
 }
@@ -53,9 +52,11 @@ function boot() {
 # Start the necessary services
 docker exec -du root $CONTAINER_NAME service binfmt-support start
 
+# if the pwd is not exists
 if [[ `docker exec -ti ${CONTAINER_NAME} ls "$(pwd)"` == *"cannot access"* ]]; then
 	echo "Redirected to $HOME"
 	docker exec -ti -w "${HOME}" $CONTAINER_NAME /usr/bin/zsh
-else
-	docker exec -ti -w "`pwd`" $CONTAINER_NAME /usr/bin/zsh
+	exit
 fi
+
+docker exec -ti -w "`pwd`" $CONTAINER_NAME /usr/bin/zsh
