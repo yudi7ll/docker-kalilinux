@@ -30,17 +30,6 @@ function boot() {
 		-v /run/user/1000:/run/user/1000 \
 		-v $HOME/.Xauthority:$HOME/.Xauthority \
 		$IMAGE_NAME
-
-	echo 'Copying fonts'
-	docker cp /usr/share/fonts $CONTAINER_NAME:/usr/share/fonts
-	echo 'Copying fonts configuration'
-	docker cp /etc/fonts $CONTAINER_NAME:/etc/fonts
-	echo 'Copying themes'
-	docker cp /usr/share/themes/Arc-Darkest $CONTAINER_NAME:/usr/share/themes/
-	echo 'Copying icons'
-	docker cp /usr/share/icons $CONTAINER_NAME:/usr/share/icons
-	echo 'Copying xfce4 configuration'
-	docker cp $HOME/.config/xfce4 $CONTAINER_NAME:$HOME/.config/xfce4
 }
 
 # if container doesn't exist
