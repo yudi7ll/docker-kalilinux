@@ -14,18 +14,15 @@ docker exec -ti $CONTAINER_NAME passwd $USER
 # install oh my zsh
 echo "installing oh my zsh"
 docker exec -tiu $USER $CONTAINER_NAME sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-# install powerlevel10k
-echo "installing powerlevel10k"
-docker exec -tiu $USER $CONTAINER_NAME git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
-# install zsh syntax highlighting
-echo "installing zsh syntax highlighting"
-docker exec -tiu $USER $CONTAINER_NAME git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
-	${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 # setup dotconfig
 echo "setup dotconfig"
 docker exec -tiu $USER -w $HOME $CONTAINER_NAME yadm clone https://github.com/yudi7ll/dotfiles -f
 docker exec -tiu $USER -w $HOME $CONTAINER_NAME yadm restore .
-docker exec -tiu $USER -w $HOME $CONTAINER_NAME yadm submodule update --init --recursive
+docker exec -tiu $USER -w $HOME $CONTAINER_NAME yadm bootstrap
+# install packer.nvim
+docker exec -tiu $USER -w $HOME $CONTAINER_NAME git clone --depth 1 https://github.com/wbthomason/packer.nvim \
+ ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+
 docker exec -tiu $USER -w $HOME $CONTAINER_NAME ln -s /hdd/Downloads .
 docker exec -tiu $USER -w $HOME $CONTAINER_NAME ln -s /hdd/Documents .
 docker exec -tiu $USER -w $HOME $CONTAINER_NAME ln -s /hdd/dev .

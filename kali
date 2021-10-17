@@ -21,6 +21,7 @@ function boot() {
 		-e XDG_RUNTIME_DIR=/run/user/1000 \
 		-e GTK_USER_PORTAL=1 \
 		-e JAVA_HOME=/usr/lib/jvm/default \
+		-e TERM=xterm-kitty \
 		-u $USER \
 		-v /hdd:/hdd \
 		-v /etc/hosts:/etc/hosts \
