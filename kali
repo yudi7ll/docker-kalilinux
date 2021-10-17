@@ -15,14 +15,15 @@ function boot() {
 		--net host \
 		--name $CONTAINER_NAME \
 		--security-opt label=type:container_runtime_t \
-		-e DISPLAY=unix$DISPLAY \
-		-e QT_QPA_PLATFORMTHEME=qt5ct \
+		-e DISPLAY=$DISPLAY \
+		-e WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
+		-e QT_QPA_PLATFORM=$QT_QPA_PLATFORM \
 		-e _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true' \
-		-e XDG_RUNTIME_DIR=/run/user/1000 \
+		-e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR \
 		-e GTK_USER_PORTAL=1 \
 		-e JAVA_HOME=/usr/lib/jvm/default \
 		-e TERM=xterm-kitty \
-		-u $USER \
+		-u $(id -u):$(id -g) \
 		-v /hdd:/hdd \
 		-v /etc/hosts:/etc/hosts \
 		-v /tmp/:/tmp/ \
