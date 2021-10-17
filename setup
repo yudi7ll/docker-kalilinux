@@ -2,6 +2,15 @@
 
 export $(grep -v '^#' $HOME/dev/config/docker-kalilinux/.env | xargs)
 
+if ! command -v xhost &> /dev/null
+then
+  echo "Please install 'xhost' to run GUI app";
+  exit 1;
+fi
+
+# Authorize user to control xserver
+xhost +SI:localuser:$(id -un)
+
 docker build . -t $IMAGE_NAME
 docker run -tid --net host --privileged -v /hdd:/hdd --name $CONTAINER_NAME $IMAGE_NAME
 docker exec -ti $CONTAINER_NAME apt install -y sudo zsh kitty curl git bat trash-cli fzf papirus-icon-theme yadm exa
