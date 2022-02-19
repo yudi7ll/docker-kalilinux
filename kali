@@ -16,11 +16,10 @@ function boot() {
 		--name $CONTAINER_NAME \
 		--security-opt label=type:container_runtime_t \
 		-e DISPLAY=$DISPLAY \
+		-e _JAVA_OPTIONS='-Dswing.aatext=TRUE -Dawt.useSystemAAFontSettings=on' \
 		-e WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
 		-e QT_QPA_PLATFORM=$QT_QPA_PLATFORM \
-		-e _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true' \
 		-e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR \
-		-e GTK_USER_PORTAL=1 \
 		-e JAVA_HOME=/usr/lib/jvm/default \
 		-e TERM=xterm-kitty \
 		-u $(id -u):$(id -g) \
