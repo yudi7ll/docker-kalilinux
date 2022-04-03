@@ -1,6 +1,7 @@
 #!/bin/env bash
 
-export $(grep -v '^#' $HOME/dev/config/docker-kalilinux/.env | xargs)
+KALI_ENV_PATH="$HOME/dev/docker-kalilinux/.env"
+export $(grep -v '^#' $KALI_ENV_PATH | xargs)
 
 # options
 case $1 in
@@ -18,15 +19,15 @@ function boot() {
 		-e DISPLAY=$DISPLAY \
 		-e _JAVA_OPTIONS='-Dswing.aatext=TRUE -Dawt.useSystemAAFontSettings=on' \
 		-e WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
-		-e QT_QPA_PLATFORM=$QT_QPA_PLATFORM \
 		-e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR \
 		-e JAVA_HOME=/usr/lib/jvm/default \
 		-e TERM=xterm-kitty \
 		-u $(id -u):$(id -g) \
-		-v /hdd:/hdd \
 		-v /etc/hosts:/etc/hosts \
 		-v /tmp/:/tmp/ \
 		-v /run/user/1000:/run/user/1000 \
+		-v $HOME/Downloads:$HOME/Downloads \
+		-v $HOME/dev:$HOME/dev \
 		-v $HOME/.Xauthority:$HOME/.Xauthority \
 		$IMAGE_NAME
 }
