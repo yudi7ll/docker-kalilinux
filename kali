@@ -16,13 +16,16 @@ function boot() {
 		--net host \
 		--name $CONTAINER_NAME \
 		--security-opt label=type:container_runtime_t \
+		--group-add sudo \
+		--group-add root \
+		--group-add wheel \
+		--group-add wireshark \
 		-e DISPLAY=$DISPLAY \
 		-e _JAVA_OPTIONS='-Dswing.aatext=TRUE -Dawt.useSystemAAFontSettings=on' \
 		-e WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
 		-e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR \
 		-e JAVA_HOME=/usr/lib/jvm/default \
-		-e TERM=xterm-kitty \
-		-u $(id -u):$(id -g) \
+		-u $(id -un):$(id -gn) \
 		-v /etc/hosts:/etc/hosts \
 		-v /tmp/:/tmp/ \
 		-v /run/user/1000:/run/user/1000 \
