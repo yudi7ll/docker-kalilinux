@@ -37,7 +37,7 @@ xhost +SI:localuser:$(id -un)
 
 docker build . -t $IMAGE_NAME
 docker run -tid --net host --privileged --name $CONTAINER_NAME $IMAGE_NAME
-docker exec -ti $CONTAINER_NAME apt install -y sudo zsh kitty curl git bat trash-cli fzf papirus-icon-theme yadm exa
+docker exec -ti $CONTAINER_NAME apt install -y sudo zsh kitty curl git bat trash-cli fzf papirus-icon-theme yadm exa dialog
 docker exec -ti $CONTAINER_NAME useradd -ms /usr/bin/zsh $USER
 docker exec -ti $CONTAINER_NAME gpasswd -a $USER sudo
 echo "type the new password for root :"
