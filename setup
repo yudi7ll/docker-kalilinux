@@ -37,9 +37,13 @@ xhost +SI:localuser:$(id -un)
 
 docker build . -t $IMAGE_NAME
 docker run -tid --net host --privileged --name $CONTAINER_NAME $IMAGE_NAME
-docker exec -ti $CONTAINER_NAME apt install -y sudo zsh kitty curl git bat trash-cli fzf papirus-icon-theme yadm exa dialog
+docker exec -ti $CONTAINER_NAME apt install -y sudo zsh kitty curl git bat trash-cli fzf yadm exa dialog neovim
 docker exec -ti $CONTAINER_NAME useradd -ms /usr/bin/zsh $USER
+docker exec -ti $CONTAINER_NAME groupadd wheel
+docker exec -ti $CONTAINER_NAME groupadd wireshark
 docker exec -ti $CONTAINER_NAME gpasswd -a $USER sudo
+docker exec -ti $CONTAINER_NAME gpasswd -a $USER wheel
+docker exec -ti $CONTAINER_NAME gpasswd -a $USER wireshark
 echo "type the new password for root :"
 docker exec -ti $CONTAINER_NAME passwd root
 echo "type the new password for ${USER} :"
@@ -50,8 +54,6 @@ echo "setup dotconfig"
 docker exec -tiu $USER -w $HOME $CONTAINER_NAME yadm clone https://github.com/yudi7ll/dotfiles -f
 docker exec -tiu $USER -w $HOME $CONTAINER_NAME yadm restore .
 docker exec -tiu $USER -w $HOME $CONTAINER_NAME yadm bootstrap
-docker exec -tiu $USER -w $HOME $CONTAINER_NAME git clone --depth 1 https://github.com/wbthomason/packer.nvim \
- ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
 echo "commits docker image..."
 docker commit $CONTAINER_NAME $IMAGE_NAME

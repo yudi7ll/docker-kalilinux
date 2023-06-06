@@ -25,8 +25,13 @@ function boot() {
 		-e WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
 		-e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR \
 		-e JAVA_HOME=/usr/lib/jvm/default \
+		-e FONT="Fira Sans" \
+		-e TERM=$TERM \
 		-u $(id -un):$(id -gn) \
-		-v /etc/hosts:/etc/hosts \
+		-v /etc/hosts:/etc/hosts:ro \
+		-v /etc/fonts:/etc/fonts:ro \
+		-v /usr/share/fontconfig:/usr/share/fontconfig:ro \
+		-v /usr/share/fonts:/usr/share/fonts:ro \
 		-v /tmp/:/tmp/ \
 		-v /run/user/1000:/run/user/1000 \
 		-v $HOME/Downloads:$HOME/Downloads \
