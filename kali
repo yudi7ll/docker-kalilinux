@@ -29,9 +29,7 @@ function boot() {
 		-e TERM=$TERM \
 		-u $(id -un):$(id -gn) \
 		-v /etc/hosts:/etc/hosts:ro \
-		-v /etc/fonts:/etc/fonts:ro \
-		-v /usr/share/fontconfig:/usr/share/fontconfig:ro \
-		-v /usr/share/fonts:/usr/share/fonts:ro \
+		-v ./fonts:$HOME/.fonts \
 		-v /tmp/:/tmp/ \
 		-v /run/user/1000:/run/user/1000 \
 		-v $HOME/Downloads:$HOME/Downloads \
